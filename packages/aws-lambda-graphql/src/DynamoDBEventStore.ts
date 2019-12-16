@@ -13,6 +13,7 @@ interface DynamoDBEventStoreOptions {
    * Default value is 2 hours
    */
   ttl?: number;
+  db?: DynamoDB.DocumentClient;
 }
 
 class DynamoDBEventStore implements IEventStore {
@@ -25,8 +26,9 @@ class DynamoDBEventStore implements IEventStore {
   constructor({
     eventsTable = 'Events',
     ttl = DEFAULT_TTL,
+    db = new DynamoDB.DocumentClient()
   }: DynamoDBEventStoreOptions = {}) {
-    this.db = new DynamoDB.DocumentClient();
+    this.db = db;
     this.tableName = eventsTable;
     this.ttl = ttl;
   }
